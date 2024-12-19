@@ -6,117 +6,306 @@
     <title>Spam Tokens</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #fff;
+            color: #333;
         }
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: #333;
-            color: #fff;
+            background: #f8f8f8;
+            color: #000;
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #ddd;
             z-index: 1000;
         }
         header h1 {
             margin: 0;
+            font-weight: bold;
         }
-        nav {
-            display: flex;
-            align-items: center;
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
-        nav a {
-            color: #fff;
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: #f8f8f8;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 5px;
+            overflow: hidden;
+            width: 200px;
+        }
+        .dropdown-content a {
+            color: #0078D7;
+            padding: 10px;
             text-decoration: none;
-            margin: 0 10px;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .hamburger {
             cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+            position: relative;
+            right: 50px;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #0078D7;
+            margin: 4px 0;
         }
         section {
-            padding: 100px 20px;
+            padding: 60px 20px;
             margin-top: 60px;
         }
-        .home {
-            background: #f4f4f4;
-            text-align: center;
-        }
-        .spam {
-            background: #d9f7d6;
-        }
-        .opt-out {
-            background: #ffd9d9;
-        }
-        .purchase {
-            background: #fef9c7;
-        }
-        .about {
-            background: #e0f7ff;
-        }
-        .contact {
-            background: #f7e0ff;
+        .divider {
+            height: 4px;
+            background: linear-gradient(to right, #0078D7, #005bb5);
+            margin: 30px 0;
         }
         footer {
-            background: #333;
-            color: #fff;
+            background: #f8f8f8;
+            color: #333;
             text-align: center;
             padding: 10px 0;
+            border-top: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #0078D7;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input, textarea, select {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        textarea {
+            resize: none;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+            .dropdown-content {
+                right: 10px;
+                width: calc(100% - 20px);
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Spam Tokens</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#spam">Spam Someone</a>
-            <a href="#opt-out">Stop Getting Spammed</a>
-            <a href="#purchase">Purchase Tokens</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact Us</a>
-        </nav>
+        <div class="dropdown">
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="dropdown-content">
+                <a href="#home">Home</a>
+                <a href="#spam">Spam Someone</a>
+                <a href="#opt-out">Stop Getting Spammed</a>
+                <a href="#purchase">Purchase Tokens</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
     </header>
 
-    <section id="home" class="home">
+    <section id="home">
         <h2>Welcome to Spam Tokens!</h2>
         <p>The fun and innovative way to connect, prank, and engage. Join the movement today!</p>
     </section>
 
-    <section id="spam" class="spam">
+    <div class="divider"></div>
+
+    <section id="spam">
         <h2>Spam Someone</h2>
-        <p>Send Spam Tokens to a random wallet or a wallet of your choice. Connect your wallet to get started!</p>
-        <button>Connect Wallet</button>
+        <p>Send Spam Tokens to a random wallet or a wallet of your choice. When you spend 1 BNB to spam someone:</p>
+        <ul>
+            <li>50% of your funds are allocated to the liquidity pool, enhancing ecosystem stability.</li>
+            <li>30% is sent as rewards to the recipient wallet.</li>
+            <li>20% is burned to reduce the overall token supply, creating scarcity.</li>
+        </ul>
+        <p>For example, if you spend 1 BNB, 0.5 BNB goes into liquidity, 0.3 BNB goes to the recipient wallet, and 0.2 BNB is permanently removed from circulation.</p>
+        <button id="connectWalletButton">Connect Wallet</button>
         <p>Choose a target or let us pick a random wallet for you.</p>
+
+        <form id="spamForm" style="display: none;">
+            <label for="recipient">Recipient Wallet Address:</label><br>
+            <input type="text" id="recipient" placeholder="Enter wallet address" required><br><br>
+
+            <label for="amount">Amount to Spam (in BNB):</label><br>
+            <input type="number" id="amount" placeholder="Enter amount" min="0.01" step="0.01" required><br><br>
+
+            <label for="message">Message:</label><br>
+            <select id="messageType" required>
+                <option value="standard">You Got Spammed (Standard)</option>
+                <option value="custom">Custom Message</option>
+            </select><br><br>
+
+            <textarea id="customMessage" placeholder="Enter your custom message" style="display: none;"></textarea><br><br>
+
+            <button type="submit" id="spamNowButton">Spam Now</button>
+        </form>
+
+        <p id="transactionFeedback" style="color: green; display: none;"></p>
     </section>
 
-    <section id="opt-out" class="opt-out">
+    <div class="divider"></div>
+
+    <section id="opt-out">
         <h2>Stop Getting Spammed</h2>
-        <p>Had enough spam? Opt-out by burning 20 Spam Tokens and enjoy spam-free peace of mind.</p>
+        <p>
+            Had enough spam? Opt-out by contributing the equivalent of <span id="bnb-price">$5 worth of BNB</span>. 
+            50% of your contribution goes into liquidity to strengthen the ecosystem, while the other 50% is permanently burned, reducing the token supply.
+        </p>
         <button>Opt-Out Now</button>
     </section>
 
-    <section id="purchase" class="purchase">
+    <div class="divider"></div>
+
+    <section id="purchase">
         <h2>Purchase Tokens</h2>
         <p>Buy Spam Tokens to join the fun. Connect your wallet and purchase tokens with ease.</p>
         <button>Purchase Now</button>
     </section>
 
-    <section id="about" class="about">
-        <h2>About Spam Tokens</h2>
-        <p>Spam Tokens is a revolutionary blockchain project designed for fun, engagement, and connection.</p>
-    </section>
+    <div class="divider"></div>
 
-    <section id="contact" class="contact">
-        <h2>Contact Us</h2>
-        <p>Have questions? Reach out to us for support or inquiries.</p>
-        <button>Email Us</button>
+    <section id="about">
+        <h2>About Spam Tokens</h2>
+        <p>Spam Tokens is a revolutionary blockchain project designed for fun, engagement, and connection. We started with a supply of 1 quadrillion tokens to ensure accessibility and inclusivity for everyone. Our tokenomics is designed to support sustainability and growth, with mechanisms like burning tokens for spam opt-outs and liquidity enhancement through contributions.</p>
     </section>
 
     <footer>
         <p>&copy; 2024 Spam Tokens. All rights reserved.</p>
     </footer>
+
+    <script>
+        async function fetchBNBPrice() {
+            try {
+                const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT');
+                const data = await response.json();
+                const bnbPriceInUSD = parseFloat(data.price);
+                const bnbEquivalent = (5 / bnbPriceInUSD).toFixed(6);
+                document.getElementById('bnb-price').innerText = `${bnbEquivalent} BNB`;
+            } catch (error) {
+                console.error('Error fetching BNB price:', error);
+                document.getElementById('bnb-price').innerText = 'Error fetching price';
+            }
+        }
+
+        // Wallet connection logic
+        async function connectWallet() {
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            // Request accounts to ensure MetaMask is connected
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            alert(`Connected wallet: ${accounts[0]}`);
+            document.getElementById('spamForm').style.display = 'block'; // Show the form
+        } catch (error) {
+            console.error('Error connecting wallet:', error);
+            alert('Failed to connect wallet. Please try again.');
+        }
+    } else {
+        alert('MetaMask is not detected. Please ensure it is installed and enabled for this browser.');
+    }
+}
+
+
+        // Handle message type selection
+        function handleMessageTypeChange() {
+            const messageType = document.getElementById('messageType').value;
+            const customMessageField = document.getElementById('customMessage');
+            if (messageType === 'custom') {
+                customMessageField.style.display = 'block';
+                customMessageField.setAttribute('required', 'true');
+            } else {
+                customMessageField.style.display = 'none';
+                customMessageField.removeAttribute('required');
+            }
+        }
+
+        // Handle the form submission
+        async function handleSpam(event) {
+            event.preventDefault();
+            const recipient = document.getElementById('recipient').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const messageType = document.getElementById('messageType').value;
+            const customMessage = document.getElementById('customMessage').value;
+
+            if (!recipient || amount <= 0) {
+                alert('Please enter a valid recipient and amount.');
+                return;
+            }
+
+            // Prepare the message
+            let messageToSend = "You Got Spammed!";
+            if (messageType === 'custom') {
+                if (!customMessage.trim()) {
+                    alert('Custom message cannot be empty.');
+                    return;
+                }
+                messageToSend = customMessage;
+            }
+
+            // Mock interaction with the smart contract
+            try {
+                alert(`Spamming ${recipient} with ${amount} BNB...`);
+                console.log(`Message: ${messageToSend}`);
+                document.getElementById('transactionFeedback').innerText = 'Transaction Successful!';
+                document.getElementById('transactionFeedback').style.display = 'block';
+            } catch (error) {
+                console.error('Error spamming:', error);
+                document.getElementById('transactionFeedback').innerText = 'Transaction Failed.';
+                document.getElementById('transactionFeedback').style.color = 'red';
+                document.getElementById('transactionFeedback').style.display = 'block';
+            }
+        }
+
+        // Attach event listeners
+        document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
+        document.getElementById('messageType').addEventListener('change', handleMessageTypeChange);
+        document.getElementById('spamForm').addEventListener('submit', handleSpam);
+
+        window.onload = fetchBNBPrice;
+    </script>
 </body>
 </html>
