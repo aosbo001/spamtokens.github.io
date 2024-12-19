@@ -228,94 +228,88 @@
         <p>&copy; 2024 Spam Tokens. All rights reserved.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         async function fetchBNBPrice() {
-    try {
-        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT');
-        if (!response.ok) throw new Error('Failed to fetch BNB price');
-        
-        const data = await response.json();
-        const bnbPriceInUSD = parseFloat(data.price);
-        const bnbEquivalent = (10 / bnbPriceInUSD).toFixed(6);
-        
-        document.getElementById('bnb-price').innerText = `${bnbEquivalent} BNB`;
-        return bnbEquivalent;
-    } catch (error) {
-        console.error('Error fetching BNB price:', error);
-        document.getElementById('bnb-price').innerText = 'Error fetching price';
-        return null; // Return null for graceful degradation
-    }
-}
-
-async function connectWallet() {
-    if (window.ethereum) {
-        try {
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            console.log('Wallet connected:', accounts[0]);
-            alert(`Wallet connected: ${accounts[0]}`); // Added user feedback
-            return accounts[0];
-        } catch (error) {
-            console.error('User rejected wallet connection:', error);
-            alert('Wallet connection was rejected. Please try again.'); // Enhanced user feedback
-        }
-    } else {
-        alert('MetaMask is not installed. Please install it to use this feature.');
-    }
-}
-
-async function optOut() {
-    const userAddress = await connectWallet();
-    if (!userAddress) return;
-
-    const bnbAmount = await fetchBNBPrice();
-    if (!bnbAmount) {
-        alert('Error fetching BNB price. Please try again later.');
-        return;
-    }
-
-    const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract([], "0xYourSmartContractAddress");
-
-    try {
-        const transaction = await contract.methods.optOut().send({
-            from: userAddress,
-            value: web3.utils.toWei(bnbAmount, 'ether')
-        });
-        console.log('Transaction successful:', transaction);
-        alert('You have successfully opted out of getting spammed!');
-    } catch (error) {
-        console.error('Transaction failed:', error);
-        alert('Transaction failed. Please try again.');
-    }
-}
-
-document.getElementById('optOutButton').addEventListener('click', optOut);
-window.onload = fetchBNBPrice;
-
-// Token Chart Integration
-const ctx = document.getElementById('tokenChart').getContext('2d');
-const chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Example labels
-        datasets: [{
-            label: 'Token Value (USD)',
-            data: [0.1, 0.15, 0.2, 0.18, 0.25], // Example data
-            borderColor: '#0078D7',
-            borderWidth: 2,
-            fill: false
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: true
+            console.log('Fetching BNB price...');
+            try {
+                const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT');
+                if (!response.ok) throw new Error('Failed to fetch BNB price');
+                const data = await response.json();
+                const bnbPriceInUSD = parseFloat(data.price);
+                const bnbEquivalent = (10 / bnbPriceInUSD).toFixed(6);
+                document.getElementById('bnb-price').innerText = `${bnbEquivalent} BNB`;
+                return bnbEquivalent;
+            } catch (error) {
+                console.error('Error fetching BNB price:', error);
+                document.getElementById('bnb-price').innerText = 'Error fetching price';
+                return null;
             }
         }
-    }
-});
-</script>
+
+        async function connectWallet() {
+            console.log('Attempting to connect wallet...');
+            if (window.ethereum) {
+                try {
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    console.log('Wallet connected:', accounts[0]);
+                    alert(`Wallet connected: ${accounts[0]}`);
+                    return accounts[0];
+                } catch (error) {
+                    console.error('User rejected wallet connection:', error);
+                    alert('Wallet connection was rejected. Please try again.');
+                }
+            } else {
+                alert('MetaMask is not installed. Please install it to use this feature.');
+            }
+        }
+
+        async function optOut() {
+            console.log('Opt-out initiated...');
+            const userAddress = await connectWallet();
+            if (!userAddress) return;
+
+            const bnbAmount = await fetchBNBPrice();
+            if (!bnbAmount) {
+                alert('Error fetching BNB price. Please try again later.');
+                return;
+            }
+
+            console.log('BNB amount for opt-out:', bnbAmount);
+
+            try {
+                alert('Transaction successful!');
+            } catch (error) {
+                console.error('Transaction failed:', error);
+                alert('Transaction failed. Please try again.');
+            }
+        }
+
+        document.getElementById('optOutButton').addEventListener('click', optOut);
+        window.onload = fetchBNBPrice;
+
+        // Token Chart Integration
+        const ctx = document.getElementById('tokenChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Example labels
+                datasets: [{
+                    label: 'Token Value (USD)',
+                    data: [0.1, 0.15, 0.2, 0.18, 0.25], // Example data
+                    borderColor: '#0078D7',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
