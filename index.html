@@ -4,10 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spam Tokens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        section {
+            padding: 100px 20px;
+            margin-top: 60px;
+        }
+        .home {
+            background: #f4f4f4;
+            text-align: center;
+        }
+        .spam {
+            background: #d9f7d6;
+        }
+        .opt-out {
+            background: #ffd9d9;
+        }
+        .purchase {
+            background: #fef9c7;
+        }
+        .about {
+            background: #e0f7ff;
+        }
+        .contact {
+            background: #f7e0ff;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Spam Tokens!</h1>
-    <p>Spam tokens are the fun and innovative way to connect, prank, and engage!</p>
-    <p><a href="#connect">Connect your wallet</a></p>
+    <header>
+        <h1>Spam Tokens</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#spam">Spam Someone</a>
+            <a href="#opt-out">Stop Getting Spammed</a>
+            <a href="#purchase">Purchase Tokens</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact Us</a>
+        </nav>
+    </header>
+
+    <section id="home" class="home">
+        <h2>Welcome to Spam Tokens!</h2>
+        <p>The fun and innovative way to connect, prank, and engage. Join the movement today!</p>
+    </section>
+
+    <section id="spam" class="spam">
+        <h2>Spam Someone</h2>
+        <p>Send Spam Tokens to a random wallet or a wallet of your choice. Connect your wallet to get started!</p>
+        <button>Connect Wallet</button>
+        <p>Choose a target or let us pick a random wallet for you.</p>
+    </section>
+
+    <section id="opt-out" class="opt-out">
+        <h2>Stop Getting Spammed</h2>
+        <p>Had enough spam? Opt-out by burning 20 Spam Tokens and enjoy spam-free peace of mind.</p>
+        <button>Opt-Out Now</button>
+    </section>
+
+    <section id="purchase" class="purchase">
+        <h2>Purchase Tokens</h2>
+        <p>Buy Spam Tokens to join the fun. Connect your wallet and purchase tokens with ease.</p>
+        <button>Purchase Now</button>
+    </section>
+
+    <section id="about" class="about">
+        <h2>About Spam Tokens</h2>
+        <p>Spam Tokens is a revolutionary blockchain project designed for fun, engagement, and connection.</p>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <p>Have questions? Reach out to us for support or inquiries.</p>
+        <button>Email Us</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Spam Tokens. All rights reserved.</p>
+    </footer>
 </body>
 </html>
