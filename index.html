@@ -248,72 +248,74 @@
     }
 }
 
-        async function connectWallet() {
-            if (window.ethereum) {
-                try {
-                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                    console.log('Wallet connected:', accounts[0]);
-                    return accounts[0];
-                } catch (error) {
-                    console.error('User rejected wallet connection:', error);
-                }
-            } else {
-                alert('MetaMask is not installed. Please install it to use this feature.');
-            }
+async function connectWallet() {
+    if (window.ethereum) {
+        try {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log('Wallet connected:', accounts[0]);
+            alert(`Wallet connected: ${accounts[0]}`); // Added user feedback
+            return accounts[0];
+        } catch (error) {
+            console.error('User rejected wallet connection:', error);
+            alert('Wallet connection was rejected. Please try again.'); // Enhanced user feedback
         }
+    } else {
+        alert('MetaMask is not installed. Please install it to use this feature.');
+    }
+}
 
-        async function optOut() {
-            const userAddress = await connectWallet();
-            if (!userAddress) return;
+async function optOut() {
+    const userAddress = await connectWallet();
+    if (!userAddress) return;
 
-            const bnbAmount = await fetchBNBPrice();
-            if (!bnbAmount) {
-                alert('Error fetching BNB price. Please try again later.');
-                return;
-            }
+    const bnbAmount = await fetchBNBPrice();
+    if (!bnbAmount) {
+        alert('Error fetching BNB price. Please try again later.');
+        return;
+    }
 
-            const web3 = new Web3(window.ethereum);
-            const contract = new web3.eth.Contract([], "0xYourSmartContractAddress");
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract([], "0xYourSmartContractAddress");
 
-            try {
-                const transaction = await contract.methods.optOut().send({
-                    from: userAddress,
-                    value: web3.utils.toWei(bnbAmount, 'ether')
-                });
-                console.log('Transaction successful:', transaction);
-                alert('You have successfully opted out of getting spammed!');
-            } catch (error) {
-                console.error('Transaction failed:', error);
-                alert('Transaction failed. Please try again.');
-            }
-        }
-
-        document.getElementById('optOutButton').addEventListener('click', optOut);
-        window.onload = fetchBNBPrice;
-
-        // Token Chart Integration
-        const ctx = document.getElementById('tokenChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Example labels
-                datasets: [{
-                    label: 'Token Value (USD)',
-                    data: [0.1, 0.15, 0.2, 0.18, 0.25], // Example data
-                    borderColor: '#0078D7',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: true
-                    }
-                }
-            }
+    try {
+        const transaction = await contract.methods.optOut().send({
+            from: userAddress,
+            value: web3.utils.toWei(bnbAmount, 'ether')
         });
-    </script>
+        console.log('Transaction successful:', transaction);
+        alert('You have successfully opted out of getting spammed!');
+    } catch (error) {
+        console.error('Transaction failed:', error);
+        alert('Transaction failed. Please try again.');
+    }
+}
+
+document.getElementById('optOutButton').addEventListener('click', optOut);
+window.onload = fetchBNBPrice;
+
+// Token Chart Integration
+const ctx = document.getElementById('tokenChart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Example labels
+        datasets: [{
+            label: 'Token Value (USD)',
+            data: [0.1, 0.15, 0.2, 0.18, 0.25], // Example data
+            borderColor: '#0078D7',
+            borderWidth: 2,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true
+            }
+        }
+    }
+});
+</script>
 </body>
 </html>
