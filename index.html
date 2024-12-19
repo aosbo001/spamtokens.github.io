@@ -247,21 +247,29 @@
         }
 
         async function connectWallet() {
-            console.log('Attempting to connect wallet...');
-            if (window.ethereum) {
-                try {
-                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                    console.log('Wallet connected:', accounts[0]);
-                    alert(`Wallet connected: ${accounts[0]}`);
-                    return accounts[0];
-                } catch (error) {
-                    console.error('User rejected wallet connection:', error);
-                    alert('Wallet connection was rejected. Please try again.');
-                }
+    if (window.ethereum) {
+        try {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log('Wallet connected:', accounts[0]);
+            alert(`Wallet connected: ${accounts[0]}`); // Added user feedback
+
+            // Show the form after successful wallet connection
+            const spamForm = document.getElementById('spamForm');
+            if (spamForm) {
+                spamForm.style.display = 'block';
             } else {
-                alert('MetaMask is not installed. Please install it to use this feature.');
+                console.error('Spam form element not found!');
             }
+            
+            return accounts[0];
+        } catch (error) {
+            console.error('User rejected wallet connection:', error);
+            alert('Wallet connection was rejected. Please try again.'); // Enhanced user feedback
         }
+    } else {
+        alert('MetaMask is not installed. Please install it to use this feature.');
+    }
+}
 
         async function optOut() {
             console.log('Opt-out initiated...');
