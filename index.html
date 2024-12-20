@@ -283,7 +283,16 @@
             console.log('BNB amount for opt-out:', bnbAmount);
 
             try {
-                alert('Transaction successful!');
+                const web3 = new Web3(window.ethereum);
+                const contract = new web3.eth.Contract([], '0xYourSmartContractAddress'); // Add ABI and Contract Address
+
+                const transaction = await contract.methods.optOut().send({
+                    from: userAddress,
+                    value: web3.utils.toWei(bnbAmount, 'ether')
+                });
+
+                console.log('Transaction successful:', transaction);
+                alert('You have successfully opted out!');
             } catch (error) {
                 console.error('Transaction failed:', error);
                 alert('Transaction failed. Please try again.');
